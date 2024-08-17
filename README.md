@@ -38,7 +38,73 @@ Power Supply
 
 Connect the battery pack to power the motor driver and Arduino.
 Software Setup
+
+
+
+
+
+code
+
+// Voice Controlled Robot using Bluetooth and L298N Motor Driver
+
+// Define L298N Motor Driver Pins
+#define in1 2
+#define in2 3
+#define in3 4
+#define in4 5
+#define ena 9
+#define enb 10
+
+void setup() {
+  // Set all the motor control pins to output
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+  pinMode(ena, OUTPUT);
+  pinMode(enb, OUTPUT);
+
+  // Set motor speed
+  analogWrite(ena, 200);
+  analogWrite(enb, 200);
+
+  // Start serial communication at 9600 baud rate
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char data = Serial.read();
+
+    // Control the robot based on voice commands
+    if (data == 'F') { // Move forward
+      digitalWrite(in1, HIGH);
+      digitalWrite(in2, LOW);
+      digitalWrite(in3, HIGH);
+      digitalWrite(in4, LOW);
+    } else if (data == 'B') { // Move backward
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, HIGH);
+      digitalWrite(in3, LOW);
+      digitalWrite(in4, HIGH);
+    } else if (data == 'L') { // Turn left
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, HIGH);
+      digitalWrite(in3, HIGH);
+      digitalWrite(in4, LOW);
+    } else if (data == 'R') { // Turn right
+      digitalWrite(in1, HIGH);
+      digitalWrite(in2, LOW);
+      digitalWrite(in3, LOW);
+      digitalWrite(in4, HIGH);
+    } else if (data == 'S') { // Stop
+      digitalWrite(in1, LOW);
+      digitalWrite(in2, LOW);
+      digitalWrite(in3, LOW);
+      digitalWrite(in4, LOW);
+    }
+  }
+}
+
 Arduino IDE:
-Install the Arduino IDE from the official website.
-Connect the Arduino board to your computer using a USB cable.
-Select the appropriate board and port under Tools > Board and Port.
+ 
